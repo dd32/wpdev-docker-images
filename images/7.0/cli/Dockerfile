@@ -32,6 +32,9 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
+# WP CLI config
+ENV WP_CLI_CACHE_DIR=/tmp/wp-cli
+
 ENTRYPOINT [ "/entrypoint.sh" ]
 
 
