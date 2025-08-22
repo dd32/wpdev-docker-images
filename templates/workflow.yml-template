@@ -80,6 +80,7 @@ jobs:
     strategy:
       matrix:
         php: [ %%PHP_VERSION_LIST%% ]
+      fail-fast: false
     env:
       PHP_VERSION: ${{ matrix.php }}
       PHP_LATEST: '%%PHP_LATEST%%'
@@ -124,6 +125,7 @@ jobs:
     strategy:
       matrix:
         php: [ %%PHP_VERSION_LIST%% ]
+      fail-fast: false
     permissions:
       contents: read
 
