@@ -406,6 +406,12 @@ foreach ( array_merge( $legacy_php_versions, $php_versions ) as $version => $ima
 					if ( $version == '7.0' ) {
 						$install_extensions .= "echo 'deb http://archive.debian.org/debian stretch main contrib non-free' | tee /etc/apt/sources.list; \\\n\t\\\n\t";
 					}
+					// Debian 10/buster was moved to archive.debian.org in March 2024. See https://lists.debian.org/debian-devel-announce/2024/03/msg00003.html.
+					if ( $version == '7.2' ) {
+						$install_extensions .= "sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list; \\\n\t";
+						$install_extensions .= "sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list; \\\n\t";
+						$install_extensions .= "sed -i '/buster-updates/d' /etc/apt/sources.list; \\\n\t\\\n\t";
+					}
 
 					$install_extensions .= "apt-get update; \\\n\t\\\n\tapt-get install -y --no-install-recommends " . implode( ' ', $config['apt'] ) . ";";
 
