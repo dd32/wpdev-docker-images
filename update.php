@@ -6,7 +6,7 @@ $latest = '8.3';
 /**
  * An array of all PHP versions that we need to generate images for, and their config settings.
  *
- * Each PHP version has settings for the PHP base image, the PHPUnit image, and the WP_CLI image.
+ * Each PHP version has settings for the PHP base image, and the WP_CLI image.
  *
  * The minimum version of PHP required as of WordPress 6.6 is 7.2.24+.
  *
@@ -18,8 +18,6 @@ $latest = '8.3';
  *     @type array  $extensions      An array of PHP extensions that need to be enabled.
  *     @type array  $pecl_extensions An array of PECL-sourced PHP extensions that will be installed, but not enabled.
  * }
- *
- * @param int $phpunit The major version branch of PHPUnit to install on this image.
  *
  * @param array|false $cli {
  *     @type string $mysql_client The name of the MySQL client Ubuntu package on this image.
@@ -35,7 +33,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'xdebug-3.1.6', 'memcached-3.3.0' ),
 			'composer'        => true,
 		),
-		'phpunit' => 7,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -49,7 +46,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'memcached-3.4.0', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -63,7 +59,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'memcached-3.4.0', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -77,7 +72,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'memcached-3.4.0', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -91,7 +85,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'memcached-3.4.0', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -105,7 +98,6 @@ $php_versions = array(
 			'pecl_extensions' => array( 'imagick', 'memcached-3.4.0', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
@@ -119,228 +111,11 @@ $php_versions = array(
 			'pecl_extensions' => array( 'memcached-3.4.0', 'imagick', 'xdebug-3.5.1' ),
 			'composer'        => true,
 		),
-		'phpunit' => 9,
 		'cli' => array(
 			'mysql_client' => 'virtual-mysql-client',
 			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
 		),
 	),
-);
-
-/**
- * An array of all legacy PHP versions that images are no longer generated for, and their config settings.
- *
- * Each PHP version has settings for the PHP base image, the PHPUnit image, and the WP_CLI image.
- *
- * These versions of PHP have been unsupported for some time, and rarely need to be regenerated.
- * This configuration is kept for historical purposes, and in case a regeneration is ever required.
- *
- * @see https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/
- *
- * @param array $php {
- *     @type string $base_name       The name of the Docker image to base our image off of.
- *     @type array  $apt             An array of apt packages that need to be installed.
- *     @type array  $extensions      An array of PHP extensions that need to be enabled.
- *     @type array  $pecl_extensions An array of PECL-sourced PHP extensions that will be installed, but not enabled.
- * }
- *
- * @param int $phpunit The major version branch of PHPUnit to install on this image.
- *
- * @param array|false $cli {
- *     @type string $mysql_client The name of the MySQL client Ubuntu package on this image.
- *     @type string $download_url The download URL for the version of WP-CLI to install on this image.
- * }
- */
-$legacy_php_versions = array(
-	'5.2' => array(
-		'php' => array(
-			'base_name'       => 'devilbox/php-fpm-5.2:latest',
-			'apt'             => array( 'sudo', 'rsync' ),
-			'extensions'      => array(),
-			'pecl_extensions' => array( 'zendopcache-7.0.5', 'xdebug-2.2.7' ),
-			'composer'        => false,
-		),
-		'phpunit' => 3,
-		'cli' => false,
-	),
-	'5.3' => array(
-		'php' => array(
-			'base_name'       => 'devilbox/php-fpm-5.3:0.21',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libicu-dev', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'mysql', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'zendopcache-7.0.5', 'xdebug-2.2.7' ),
-			'composer'        => true,
-		),
-		'phpunit' => 4,
-		'cli' => array(
-			'mysql_client' => 'mysql-client',
-			'download_url' => 'https://github.com/wp-cli/wp-cli/releases/download/v1.5.1/wp-cli-1.5.1.phar',
-		),
-	),
-	'5.4' => array(
-		'php' => array(
-			'base_name'       => 'php:5.4-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libicu-dev', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'mysql', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'zendopcache-7.0.5', 'xdebug-2.4.1', 'memcached-2.2.0', 'imagick-3.4.4' ),
-			'composer'        => true,
-		),
-		'phpunit' => 4,
-		'cli' => array(
-			'mysql_client' => 'mysql-client',
-			'download_url' => 'https://github.com/wp-cli/wp-cli/releases/download/v2.4.0/wp-cli-2.4.0.phar',
-		),
-	),
-	'5.5' => array(
-		'php' => array(
-			'base_name'       => 'php:5.5-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libicu-dev', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'mysql', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'xdebug-2.5.5', 'memcached-2.2.0', 'imagick-3.4.4' ),
-			'composer'        => true,
-		),
-		'phpunit' => 4,
-		'cli' => array(
-			'mysql_client' => 'mysql-client',
-			'download_url' => 'https://github.com/wp-cli/wp-cli/releases/download/v2.4.0/wp-cli-2.4.0.phar',
-		),
-	),
-	'5.6.20' => array(
-		'php' => array(
-			'base_name'       => 'php:5.6.20-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libicu-dev', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'mysql', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'xdebug-2.5.5', 'memcached-2.2.0', 'imagick-3.4.4' ),
-			'composer'        => true,
-		),
-		'phpunit' => 5,
-		'cli' => array(
-			'mysql_client' => 'mysql-client',
-			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-		),
-	),
-	'5.6' => array(
-		'php' => array(
-			'base_name'       => 'php:5.6-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'mysql', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'xdebug-2.5.5', 'memcached-2.2.0', 'imagick-3.4.4' ),
-			'composer'        => true,
-		),
-		'phpunit' => 5,
-		'cli' => array(
-			'mysql_client' => 'virtual-mysql-client',
-			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-		),
-	),
-	'7.0' => array(
-		'php' => array(
-			'base_name'       => 'php:7.0-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'opcache', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'xdebug-2.7.2', 'memcached-3.1.5', 'imagick' ),
-			'composer'        => true,
-		),
-		'phpunit' => 6,
-		'cli' => array(
-			'mysql_client' => 'virtual-mysql-client',
-			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-		),
-	),
-	'7.1' => array(
-		'php' => array(
-			'base_name'       => 'php:7.1-fpm',
-			'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-			'extensions'      => array( 'gd', 'opcache', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-			'pecl_extensions' => array( 'xdebug-2.9.8', 'memcached-3.1.5', 'imagick' ),
-			'composer'        => true,
-		),
-		'phpunit' => 7,
-		'cli' => array(
-			'mysql_client' => 'virtual-mysql-client',
-			'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-		),
-	),
-    '7.2' => array(
-        'php' => array(
-            'base_name'       => 'php:7.2-fpm',
-            'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-            'extensions'      => array( 'gd', 'opcache', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-            'pecl_extensions' => array( 'imagick', 'xdebug-3.1.6', 'memcached-3.3.0' ),
-            'composer'        => true,
-        ),
-        'phpunit' => 7,
-        'cli' => array(
-            'mysql_client' => 'virtual-mysql-client',
-            'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-        ),
-    ),
-    '7.3' => array(
-        'php' => array(
-            'base_name'       => 'php:7.3-fpm',
-            'apt'             => array( 'libjpeg-dev', 'libpng-dev', 'libwebp-dev', 'libzip-dev', 'libmemcached-dev', 'unzip', 'libmagickwand-dev', 'ghostscript', 'libonig-dev', 'locales', 'sudo', 'rsync', 'libxslt-dev' ),
-            'extensions'      => array( 'gd', 'opcache', 'mysqli', 'zip', 'exif', 'intl', 'mbstring', 'xml', 'xsl' ),
-            'pecl_extensions' => array( 'imagick', 'xdebug-3.1.6', 'memcached-3.3.0' ),
-            'composer'        => true,
-        ),
-        'phpunit' => 7,
-        'cli' => array(
-            'mysql_client' => 'virtual-mysql-client',
-            'download_url' => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
-        ),
-    ),
-);
-
-/**
- * An array of all PHPUnit and PHP version combinations that we need to generate images for.
- *
- * Different WordPress versions support different versions of PHP and different versions of PHPUnit.
- * This creates a need to run multiple versions of PHPUnit on each version of PHP.
- *
- * These versions of PHPUnit are no longer supported and do not receive updates.
- * Regenerating these containers should very rarely be required.
- *
- * @param array $legacy_phpunit_versions A list of PHP versions for each PHPUnit version.
- */
-$legacy_phpunit_versions = array(
-	'9' => array(
-		'8.3',
-		'8.2',
-		'8.1',
-		'8.0',
-		'7.4',
-		'7.3',
-	),
-	'8' => array(
-		'8.2',
-		'8.1',
-		'8.0',
-		'7.4',
-		'7.3',
-		'7.2',
-	),
-	'7' => array(
-		'7.4',
-		'7.3',
-		'7.2',
-		'7.1',
-		'7.0',
-	),
-	'6' => array(
-		'7.3',
-		'7.2',
-		'7.1',
-		'7.0',
-	),
-	'5' => array(
-		'7.0',
-		'5.6.20',
-		'5.6',
-	),
-	'4' => array(
-		'5.6.20',
-		'5.6',
-	)
 );
 
 // A warning that will be added to each Dockerfile, to ensure folks don't edit them directly.
@@ -356,7 +131,6 @@ EOT;
 // Load the templates.
 $templates = array(
 	'php'     => file_get_contents( 'templates/Dockerfile-php.template' ),
-	'phpunit' => file_get_contents( 'templates/Dockerfile-phpunit.template' ),
 	'cli'     => file_get_contents( 'templates/Dockerfile-cli.template' ),
 );
 
@@ -375,7 +149,7 @@ foreach ( $php_versions as $version => $images ) {
 
 		$dockerfile = str_replace( '%%GENERATED_WARNING%%', $generated_warning, $dockerfile );
 
-		// PHPUnit and WP-CLI image parent tags vary depending on whether it's a PHP version, or "latest".
+		// WP-CLI image parent tags vary depending on whether it's a PHP version, or "latest".
 		if ( 'latest' === $version ) {
 			$version_tag = 'latest';
 		} else {
@@ -506,14 +280,6 @@ foreach ( $php_versions as $version => $images ) {
 
 			copy( "entrypoint/common.sh", "images/{$version}/{$image}/common.sh" );
 
-		} elseif ( $image === 'phpunit' ) {
-			// Replace tags inside the PHPUnit Dockerfile template.
-			$dockerfile = str_replace( '%%PHPUNIT_VERSION%%', $config, $dockerfile );
-
-			// Ensure PHPUnit can be successfully downloaded in older containers.
-			if ( '7.1' > $version ) {
-				$dockerfile = str_replace( 'RUN curl -sL', 'RUN curl -sLk', $dockerfile );
-			}
 		} elseif ( $image === 'cli' ) {
 			// Replace tags inside the WP-CLI Dockerfile template.
 			if ( $config ) {
